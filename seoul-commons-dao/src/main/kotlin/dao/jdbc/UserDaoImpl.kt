@@ -42,12 +42,12 @@ class UserDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : UserDao {
     }
 
     override fun delete(userId: Long): Int {
-        val deleteQuery = "delete from user where id = ?"
+        val deleteQuery = "delete from users where id = ?"
         return jdbcTemplate.update(deleteQuery, userId)
     }
 
     override fun save(entity: UserEntity): Int {
-        val saveQuery = "insert into user (" +
+        val saveQuery = "insert into users (" +
             "${UserEntity.COLUMN_NICKNAME}, " +
             "${UserEntity.COLUMN_PASSWORD}, " +
             "${UserEntity.COLUMN_EMAIL}, " +
@@ -56,7 +56,7 @@ class UserDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : UserDao {
     }
 
     override fun update(entity: UserEntity, columns: Collection<String>): Int {
-        val updateQuery = "update user set " +
+        val updateQuery = "update users set " +
             "${UserEntity.COLUMN_EMAIL}=?, " +
             "${UserEntity.COLUMN_NICKNAME}=?, " +
             "${UserEntity.COLUMN_PASSWORD}=?, " +
