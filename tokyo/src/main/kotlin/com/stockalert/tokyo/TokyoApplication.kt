@@ -1,11 +1,12 @@
-package com.stockalert.seoul
+package com.stockalert.tokyo
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SeoulApplication
+class TokyoApplication {
+}
 
 fun main(args: Array<String>) {
-	runApplication<SeoulApplication>(*args)
+    runApplication<TokyoApplication>(*args)
 }
