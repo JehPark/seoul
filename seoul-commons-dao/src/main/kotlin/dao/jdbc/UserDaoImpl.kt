@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
 import org.springframework.stereotype.Repository
+import java.util.Date
 
 @Repository
 class UserDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : UserDao {
@@ -41,18 +42,41 @@ class UserDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : UserDao {
         return jdbcTemplate.queryForObject(findByIdSql, mapper, userId)
     }
 
+    override fun findByEmail(email: String): UserEntity? {
+        val findByEmailQuery = "select ${UserEntity.COLUMN_ID}, " +
+            "${UserEntity.COLUMN_EMAIL}, " +
+            "${UserEntity.COLUMN_NICKNAME}, " +
+            "${UserEntity.COLUMN_SIGNED_UP_AT}, " +
+            "${UserEntity.COLUMN_PASSWORD} from users " +
+            "where ${UserEntity.COLUMN_EMAIL} = ?"
+
+        val result = jdbcTemplate.query(findByEmailQuery, mapper, email)
+        return if (result.size > 0) result.first() else null
+    }
+
+    override fun findByNickname(nickname: String): UserEntity? {
+        val findByNickname = "select ${UserEntity.COLUMN_ID}, " +
+            "${UserEntity.COLUMN_EMAIL}, " +
+            "${UserEntity.COLUMN_NICKNAME}, " +
+            "${UserEntity.COLUMN_SIGNED_UP_AT}, " +
+            "${UserEntity.COLUMN_PASSWORD} from users " +
+            "where ${UserEntity.COLUMN_NICKNAME} = ?"
+        val result = jdbcTemplate.query(findByNickname, mapper, nickname)
+        return if (result.size > 0) result.first() else null
+    }
+
     override fun delete(userId: Long): Int {
         val deleteQuery = "delete from users where id = ?"
         return jdbcTemplate.update(deleteQuery, userId)
     }
 
-    override fun save(entity: UserEntity): Int {
+    override fun save(nickname: String, password: String, email: String, signedUpAt: Date): Int {
         val saveQuery = "insert into users (" +
             "${UserEntity.COLUMN_NICKNAME}, " +
             "${UserEntity.COLUMN_PASSWORD}, " +
             "${UserEntity.COLUMN_EMAIL}, " +
             "${UserEntity.COLUMN_SIGNED_UP_AT}) values(?, ?, ?, ?)"
-        return jdbcTemplate.update(saveQuery, entity.nickname, entity.password, entity.email, entity.signedUpAt)
+        return jdbcTemplate.update(saveQuery, nickname, password, email, signedUpAt)
     }
 
     override fun update(entity: UserEntity, columns: Collection<String>): Int {
