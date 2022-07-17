@@ -27,7 +27,7 @@ class UserDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : UserDao {
             "${UserEntity.COLUMN_EMAIL}, " +
             "${UserEntity.COLUMN_NICKNAME}, " +
             "${UserEntity.COLUMN_SIGNED_UP_AT}, " +
-            "${UserEntity.COLUMN_PASSWORD} from user"
+            "${UserEntity.COLUMN_PASSWORD} from users"
         return jdbcTemplate.query(findAllSql, mapper)
     }
 
@@ -36,7 +36,7 @@ class UserDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : UserDao {
             "${UserEntity.COLUMN_EMAIL}, " +
             "${UserEntity.COLUMN_NICKNAME}, " +
             "${UserEntity.COLUMN_SIGNED_UP_AT}, " +
-            "${UserEntity.COLUMN_PASSWORD} from user " +
+            "${UserEntity.COLUMN_PASSWORD} from users " +
             "where id = ?"
         return jdbcTemplate.queryForObject(findByIdSql, mapper, userId)
     }
