@@ -27,7 +27,7 @@ dependencyResolutionManagement {
         }
 
         create("libs") {
-            library("arrow", "io.arrow-kt", "arrow-core").version("0.13.1")
+            library("arrow", "io.arrow-kt", "arrow-core").version("1.0.1")
             version("retrofit", "2.9.0")
 
             library("retrofit", "com.squareup.retrofit2", "retrofit").versionRef("retrofit")
