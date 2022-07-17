@@ -26,7 +26,8 @@ class StockDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : StockDao {
         val findByIdSql = "select ${StockEntity.COLUMN_ID}, " +
             "${StockEntity.COLUMN_FULLNAME}, " +
             "${StockEntity.COLUMN_TICKER}, " +
-            "${StockEntity.COLUMN_LASTDAY_PRICE}" +
+            "${StockEntity.COLUMN_LASTDAY_PRICE} " +
+            "from stocks " +
             "where id = ?"
         return jdbcTemplate.queryForObject(findByIdSql, mapper, stockId)
     }
@@ -36,6 +37,7 @@ class StockDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : StockDao {
             "${StockEntity.COLUMN_FULLNAME}, " +
             "${StockEntity.COLUMN_TICKER}, " +
             "${StockEntity.COLUMN_LASTDAY_PRICE} " +
+            "from stocks" +
             "where ticker = ?"
         return jdbcTemplate.queryForObject(findByTickerSql, mapper, ticker)
     }
@@ -49,7 +51,7 @@ class StockDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : StockDao {
         val saveQuery = "insert into stocks (" +
             "${StockEntity.COLUMN_FULLNAME}, " +
             "${StockEntity.COLUMN_TICKER}, " +
-            "${StockEntity.COLUMN_LASTDAY_PRICE} " +
+            "${StockEntity.COLUMN_LASTDAY_PRICE}) " +
             "values(?, ?, ?)"
         return jdbcTemplate.update(saveQuery, entity.fullname, entity.ticker, entity.lastDayPrice)
     }
