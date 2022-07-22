@@ -16,14 +16,14 @@ class UserEntity(
     @GeneratedValue
     @Column(name = COLUMN_ID, nullable = false, insertable = false, updatable = false)
     var id: Long,
-    @Column(name = COLUMN_EMAIL)
+    @Column(name = COLUMN_EMAIL, nullable = false, length = 50, unique = true)
     var email: String,
-    @Column(name = COLUMN_NICKNAME)
+    @Column(name = COLUMN_NICKNAME, nullable = false, length = 100, unique = true)
     var nickname: String,
     @Temporal(TemporalType.DATE)
-    @Column(name = COLUMN_SIGNED_UP_AT)
+    @Column(name = COLUMN_SIGNED_UP_AT, nullable = false)
     var signedUpAt: Date,
-    @Column(name = COLUMN_PASSWORD)
+    @Column(name = COLUMN_PASSWORD, nullable = false, length = 30)
     var password: String
 ) {
     companion object {

@@ -13,6 +13,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation(springLibs.boot.starter)
     implementation(springLibs.boot.web)
+    implementation(springLibs.boot.validation)
 
     implementation(jacksonLibs.kotlin)
 
