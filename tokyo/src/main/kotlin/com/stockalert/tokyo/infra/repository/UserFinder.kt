@@ -1,4 +1,4 @@
-package com.stockalert.tokyo.domain.repository
+package com.stockalert.tokyo.infra.repository
 
 import dao.UserDao
 import model.entity.UserEntity

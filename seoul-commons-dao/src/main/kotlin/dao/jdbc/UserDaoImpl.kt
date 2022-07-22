@@ -6,11 +6,15 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.jdbc.core.RowMapper
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert
 import org.springframework.stereotype.Repository
 import java.util.Date
 
 @Repository
-class UserDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : UserDao {
+class UserDaoImpl(
+    @Autowired val jdbcTemplate: JdbcTemplate,
+    @Autowired val simpleJdbcInsert: SimpleJdbcInsert
+) : UserDao {
     private val logger = LoggerFactory.getLogger(UserDaoImpl::class.java)
 
     val mapper = RowMapper<UserEntity> { resultSet, rowId ->
@@ -70,13 +74,19 @@ class UserDaoImpl(@Autowired val jdbcTemplate: JdbcTemplate) : UserDao {
         return jdbcTemplate.update(deleteQuery, userId)
     }
 
-    override fun save(nickname: String, password: String, email: String, signedUpAt: Date): Int {
-        val saveQuery = "insert into users (" +
-            "${UserEntity.COLUMN_NICKNAME}, " +
-            "${UserEntity.COLUMN_PASSWORD}, " +
-            "${UserEntity.COLUMN_EMAIL}, " +
-            "${UserEntity.COLUMN_SIGNED_UP_AT}) values(?, ?, ?, ?)"
-        return jdbcTemplate.update(saveQuery, nickname, password, email, signedUpAt)
+    override fun save(nickname: String, password: String, email: String, signedUpAt: Date): UserEntity {
+        val params = hashMapOf<String, Any>(
+            UserEntity.COLUMN_NICKNAME to nickname,
+            UserEntity.COLUMN_PASSWORD to password,
+            UserEntity.COLUMN_EMAIL to email,
+            UserEntity.COLUMN_SIGNED_UP_AT to signedUpAt
+        )
+        val userId = simpleJdbcInsert
+            .withTableName("users")
+            .usingGeneratedKeyColumns("id")
+            .executeAndReturnKey(params)
+            .toLong()
+        return UserEntity(userId, nickname, email, signedUpAt, password)
     }
 
     override fun update(entity: UserEntity, columns: Collection<String>): Int {

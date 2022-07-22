@@ -9,6 +9,6 @@ interface UserDao {
     fun findByEmail(email: String): UserEntity?
     fun findByNickname(nickname: String): UserEntity?
     fun delete(userId: Long): Int
-    fun save(nickname: String, password: String, email: String, signedUpAt: Date): Int
+    fun save(nickname: String, password: String, email: String, signedUpAt: Date): UserEntity
     fun update(entity: UserEntity, columns :Collection<String>): Int
 }
