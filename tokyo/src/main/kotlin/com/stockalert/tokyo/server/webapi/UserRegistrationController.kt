@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
 @RestController
-@RequestMapping("/registration")
+@RequestMapping("/register")
 class UserRegistrationController(
     private val registerUserPort: RegisterUserPort
 ) {
@@ -45,6 +45,6 @@ data class UserRegistrationPayload(
     val password: String
 ) {
     fun toCommand() = RegistrationCommand(
-        nickname, email, password
+        nickname = nickname, email = email, password = password
     )
 }

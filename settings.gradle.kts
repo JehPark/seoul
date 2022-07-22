@@ -16,6 +16,7 @@ dependencyResolutionManagement {
             library("boot-thymeleaf", "org.springframework.boot", "spring-boot-starter-thymeleaf").withoutVersion()
             library("boot-undertow", "org.springframework.boot", "spring-boot-starter-undertow").withoutVersion()
             library("boot-validation", "org.springframework.boot", "spring-boot-starter-validation").withoutVersion()
+            library("boot-security", "org.springframework.boot", "spring-boot-starter-security").withoutVersion()
 
             library("boot-jdbc", "org.springframework.boot", "spring-boot-starter-jdbc").versionRef("spring-boot-data")
             library("boot-jpa", "org.springframework.boot", "spring-boot-starter-data-jpa").versionRef("spring-boot-data")

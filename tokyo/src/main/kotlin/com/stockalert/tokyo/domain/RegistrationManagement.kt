@@ -17,11 +17,21 @@ class RegistrationManagement(
     private val userRegister: UserRegister,
     private val passwordEncryptor: PasswordEncryptor,
 ) {
-    operator fun invoke(nickname: String, email: String, password: String, signedUpAt: Date): Either<RegisterUserPort.Error, UserEntity> {
+    operator fun invoke(
+        nickname: String,
+        email: String,
+        password: String,
+        signedUpAt: Date
+    ): Either<RegisterUserPort.Error, UserEntity> {
         val verificationResult = verifyUserRegistration(nickname, email)
         if (verificationResult != null) return verificationResult.left()
         val encryptedPassword = passwordEncryptor.encrypt(password)
-        return userRegister.register(nickname, encryptedPassword, email, signedUpAt).right()
+        return userRegister.register(
+            nickname = nickname,
+            password = encryptedPassword,
+            email = email,
+            signedUpAt = signedUpAt
+        ).right()
     }
 
     private fun verifyUserRegistration(nickname: String, email: String): RegisterUserPort.Error? {
