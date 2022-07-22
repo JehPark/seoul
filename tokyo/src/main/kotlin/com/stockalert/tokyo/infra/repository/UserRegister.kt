@@ -8,6 +8,6 @@ class UserRegister(
     val userDao: UserDao
 ) {
     fun register(nickname: String, email: String, password: String, signedUpAt: Date): UserEntity {
-        return userDao.save(nickname, password, email, signedUpAt)
+        return userDao.save(nickname = nickname, password = password, email = email, signedUpAt = signedUpAt)
     }
 }

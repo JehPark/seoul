@@ -9,11 +9,12 @@ import org.springframework.jdbc.core.RowMapper
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert
 import org.springframework.stereotype.Repository
 import java.util.Date
+import javax.sql.DataSource
 
 @Repository
 class UserDaoImpl(
     @Autowired val jdbcTemplate: JdbcTemplate,
-    @Autowired val simpleJdbcInsert: SimpleJdbcInsert
+    @Autowired val dataSource: DataSource
 ) : UserDao {
     private val logger = LoggerFactory.getLogger(UserDaoImpl::class.java)
 
@@ -81,12 +82,12 @@ class UserDaoImpl(
             UserEntity.COLUMN_EMAIL to email,
             UserEntity.COLUMN_SIGNED_UP_AT to signedUpAt
         )
-        val userId = simpleJdbcInsert
+        val userId = SimpleJdbcInsert(dataSource)
             .withTableName("users")
             .usingGeneratedKeyColumns("id")
             .executeAndReturnKey(params)
             .toLong()
-        return UserEntity(userId, nickname, email, signedUpAt, password)
+        return UserEntity(id = userId, nickname = nickname, email = email, signedUpAt = signedUpAt, password = password)
     }
 
     override fun update(entity: UserEntity, columns: Collection<String>): Int {

@@ -14,6 +14,7 @@ dependencies {
     implementation(springLibs.boot.starter)
     implementation(springLibs.boot.web)
     implementation(springLibs.boot.validation)
+    implementation(springLibs.boot.security)
 
     implementation(jacksonLibs.kotlin)
 
